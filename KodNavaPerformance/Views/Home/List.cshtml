@@ -1,0 +1,27 @@
+﻿@model List<KodNavaPerformance.Models.Performance>
+@{
+    ViewBag.Title = "List";
+}
+
+<table class="table table-striped" style="margin-top:3%;">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Type</th>
+            <th scope="col">Value</th>
+            <th scope="col">Creation Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th scope="row">@item.Id</th>
+                <td>@(item.TypeId==1?"Cpu ":"Network")</td>
+                <td>@item.PerformanceValue</td>
+                <td>@item.CreationTime</td>
+            </tr>
+        }
+
+    </tbody>
+</table>

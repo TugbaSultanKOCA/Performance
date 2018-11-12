@@ -1,0 +1,52 @@
+﻿@model  KodNavaPerformance.Models.PerformanceViewModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h2>Let's Learn Your Pc Performance And Connection Speed</h2>
+</div>
+
+<div class="row">
+
+    @foreach (var performance in Model.Performances)
+    {
+        <div class="col-md-12">
+            <h2>@(performance.TypeId == 1 ? "Start Cpu Performans" : "Start Connection Speed Kb/s")</h2>
+            <div class="panel panel-primary">
+                <div class="panel-body" id="@performance.TypeId" ><span>@performance.PerformanceValue</span></div>
+            </div>
+        </div>
+    }
+
+</div>
+@section scripts{
+
+    <script>
+        $(document).ready(function () {
+            sendRequest();
+            function sendRequest() {
+                $.ajax({
+                    url: "/Home/CheckLastPerformance",
+                    success:
+                        function (data) {
+                            console.log(data);
+                            if (data.length != 0) {
+                                $("div#1>span").text(data.lastcpu);
+                                $("div#2>span").text(data.lastnetwork);
+                                if (data.messagecpu != "" || data.messagenetwork!="") {
+                                    alert(data.messagecpu+' '+data.messagenetwork);
+                                } 
+                            }
+                        },
+                    complete: function () {
+                      
+                        setInterval(sendRequest, 30000); 
+                    }
+                });
+            };
+        });
+    </script>
+
+
+}
